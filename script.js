@@ -4995,32 +4995,32 @@
             const content = document.getElementById('menu-modal-content');
             
             content.innerHTML = `
-                <div class="p-8">
+                <div class="p-8 max-h-[80vh] overflow-y-auto">
                     <!-- Header -->
                     <div class="text-center mb-8">
-                        <div class="text-6xl mb-4">${item.emoji}</div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">${item.name}</h2>
-                        <p class="text-xl text-gray-600">${item.description}</p>
+                        <div class="text-4xl mb-4">${item.emoji}</div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">${item.name}</h2>
+                        <p class="text-lg text-gray-600">${item.description}</p>
                     </div>
 
                     <!-- Full Description -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">About This Item</h3>
+                    <div class="mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">About This Item</h3>
                         <p class="text-gray-600 leading-relaxed">${item.details.fullDescription}</p>
                     </div>
 
                     <!-- Details Grid -->
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="grid md:grid-cols-2 gap-1 mb-4">
                         <!-- Ingredients -->
                         <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <span class="text-xl mr-2">🥄</span>
+                            <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center">
+                                <span class="text-lg mr-2">🥄</span>
                                 Ingredients
                             </h3>
                             <ul class="space-y-2">
                                 ${item.details.ingredients.map(ingredient => `
                                     <li class="text-gray-600 flex items-center">
-                                        <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
                                         ${ingredient}
                                     </li>
                                 `).join('')}
@@ -5030,7 +5030,7 @@
                         <!-- Nutrition & Info -->
                         <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <span class="text-xl mr-2">📊</span>
+                                <span class="text-lg mr-2">📊</span>
                                 Nutrition Info
                             </h3>
                             <div class="space-y-3">
@@ -5051,8 +5051,8 @@
 
                         <!-- Preparation -->
                         <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <span class="text-xl mr-2">⏱️</span>
+                            <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center">
+                                <span class="text-lg mr-2">⏱️</span>
                                 Preparation
                             </h3>
                             <div class="space-y-3">
@@ -5073,8 +5073,8 @@
 
                         <!-- Allergens -->
                         <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <span class="text-xl mr-2">⚠️</span>
+                            <h3 class="text-sm font-semibold text-gray-800 mb-4 flex items-center">
+                                <span class="text-lg mr-2">⚠️</span>
                                 Allergen Information
                             </h3>
                             <div class="space-y-2">
@@ -5088,41 +5088,37 @@
                         </div>
                     </div>
 
-                    <!-- Add-on Flavors (for coffee items) -->
-                    ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <span class="text-xl mr-2">✨</span>
-                            Add-on Flavors (+$0.50 each)
-                        </h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
-                                <input type="checkbox" id="vanilla-${item.id}" class="text-green-600 focus:ring-green-500">
-                                <label for="vanilla-${item.id}" class="text-sm font-medium text-gray-700">🍦 Vanilla</label>
-                            </div>
-                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
-                                <input type="checkbox" id="caramel-${item.id}" class="text-green-600 focus:ring-green-500">
-                                <label for="caramel-${item.id}" class="text-sm font-medium text-gray-700">🍯 Caramel</label>
-                            </div>
-                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
-                                <input type="checkbox" id="irish-${item.id}" class="text-green-600 focus:ring-green-500">
-                                <label for="irish-${item.id}" class="text-sm font-medium text-gray-700">☘️ Irish</label>
-                            </div>
-                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg">
-                                <input type="checkbox" id="hazelnut-${item.id}" class="text-green-600 focus:ring-green-500">
-                                <label for="hazelnut-${item.id}" class="text-sm font-medium text-gray-700">🌰 Roasted Hazelnut</label>
-                            </div>
-                            <div class="flex items-center space-x-2 p-3 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg">
-                                <input type="checkbox" id="cinnamon-${item.id}" class="text-green-600 focus:ring-green-500">
-                                <label for="cinnamon-${item.id}" class="text-sm font-medium text-gray-700">🍂 Cinnamon</label>
-                            </div>
-                        </div>
-                    </div>
-                    ` : ''}
+<!-- Add-on Flavors (for coffee items) -->
+${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
+<div class="mb-8">
+  <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+    <span class="text-lg mr-2">✨</span>
+    Add-on Flavors (Extra Charges)
+  </h3>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-40 overflow-y-auto pr-2">
+    <div class="flex items-center p-3 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">🍦 Vanilla</span>
+    </div>
+    <div class="flex items-center p-3 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">🍯 Caramel</span>
+    </div>
+    <div class="flex items-center p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">☘️ Irish</span>
+    </div>
+    <div class="flex items-center p-3 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">🌰 Roasted Hazelnut</span>
+    </div>
+    <div class="flex items-center p-3 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg">
+      <span class="text-sm font-medium text-gray-700">🍂 Cinnamon</span>
+    </div>
+  </div>
+</div>
+` : ''}
+
 
                     <!-- Action Buttons -->
                     <div class="text-center">
-                        <button onclick="closeMenuModal()" class="bg-green-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                        <button onclick="closeMenuModal()" class="bg-green-600 text-white py-3 px-3 rounded-sm font-semibold hover:bg-green-700 transition-colors">
                             Close
                         </button>
                     </div>

@@ -71,3 +71,13 @@
             .tablet-only { display: none; }
             .desktop-only { display: block; }
         }
+        body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+            .flexbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+

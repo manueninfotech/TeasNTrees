@@ -9,6 +9,7 @@
                 price: '$3.50',
                 description: 'Traditional drip coffee with rich, smooth flavor',
                 emoji: '☕',
+                //imgurl:'./Assets/Drinks_1.jpg',
                 details: {
                     fullDescription: 'Our signature filter coffee is brewed using premium Arabica beans sourced from sustainable farms. The slow drip method extracts the perfect balance of flavors, creating a smooth, rich cup with notes of chocolate and caramel. Perfect for coffee purists who appreciate the classic taste.',
                     ingredients: ['Premium Arabica coffee beans', 'Filtered water', 'Optional: milk, sugar, cream'],
@@ -4859,17 +4860,31 @@
 
         ];
 
-        const galleryItems = [
-            { id: 1, category: 'interior', title: 'Cozy Seating Area', description: 'Comfortable chairs and warm lighting', emoji: '🪑' },
-            { id: 2, category: 'interior', title: 'Coffee Bar', description: 'Our beautiful espresso station', emoji: '☕' },
-            { id: 3, category: 'interior', title: 'Reading Corner', description: 'Perfect spot for quiet moments', emoji: '📚' },
-            { id: 4, category: 'drinks', title: 'Signature Latte Art', description: 'Beautiful foam designs', emoji: '🎨' },
-            { id: 5, category: 'drinks', title: 'Fresh Cold Brew', description: 'Perfectly chilled coffee', emoji: '🧊' },
-            { id: 6, category: 'drinks', title: 'Tea Selection', description: 'Premium loose leaf teas', emoji: '🍃' },
-            { id: 7, category: 'food', title: 'Fresh Pastries', description: 'Baked daily in-house', emoji: '🥐' },
-            { id: 8, category: 'food', title: 'Artisan Sandwiches', description: 'Made with local ingredients', emoji: '🥪' },
-            { id: 9, category: 'food', title: 'Dessert Display', description: 'Tempting sweet treats', emoji: '🍰' },
-            ];
+        
+
+        const galleryItems =  [
+    { id: 1, category: 'interior', title: 'Cozy Seating Area', description: 'Comfortable chairs and warm lighting', imageurl: '/Assets/Interior_1.png' },
+    { id: 2, category: 'interior', title: 'Sofa Seating Area', description: 'Our beautiful espresso station', imageurl: '/Assets/Interior_2.png' },
+    { id: 3, category: 'interior', title: 'Natural Trees', description: 'Perfect spot for quiet moments', imageurl: '/Assets/Interior_3.png' },
+    { id: 4, category: 'drinks', title: 'Coffee', description: 'Beautiful foam designs', imageurl: 'Assets/Drinks_1.jpg' },
+    { id: 5, category: 'drinks', title: 'Hot Tea', description: 'Perfectly brewed hot tea', imageurl: 'Assets/Drinks_2.png' },
+    { id: 6, category: 'drinks', title: 'Fresh Cold Brew', description: 'Premium Cold Pressed Juices', imageurl: 'Assets/Drinks_3.jpg' },
+    { id: 7, category: 'food', title: 'Fresh Sandwiches', description: 'Baked daily in-house', imageurl: 'Assets/Food_1.jpg' },
+    { id: 8, category: 'food', title: 'White Creamy Pasta', description: 'Made with local ingredients', imageurl: 'Assets/Food_2.jpg' },
+    { id: 9, category: 'food', title: 'Broccoli Bites', description: 'Freshly made broccoli bites', imageurl: 'Assets/Food_3.jpg' },
+];
+
+       // [
+       //     { id: 1, category: 'interior', title: 'Cozy Seating Area', description: 'Comfortable chairs and warm lighting', emoji: '🪑' },
+       //     { id: 2, category: 'interior', title: 'Coffee Bar', description: 'Our beautiful espresso station', emoji: '☕' },
+       ///     { id: 3, category: 'interior', title: 'Reading Corner', description: 'Perfect spot for quiet moments', emoji: '📚' },
+       //     { id: 4, category: 'drinks', title: 'Signature Latte Art', description: 'Beautiful foam designs', emoji: '🎨' },
+       //     { id: 5, category: 'drinks', title: 'Fresh Cold Brew', description: 'Perfectly chilled coffee', emoji: '🧊' },
+       //     { id: 6, category: 'drinks', title: 'Tea Selection', description: 'Premium loose leaf teas', emoji: '🍃' },
+       //     { id: 7, category: 'food', title: 'Fresh Pastries', description: 'Baked daily in-house', emoji: '🥐' },
+       //     { id: 8, category: 'food', title: 'Artisan Sandwiches', description: 'Made with local ingredients', emoji: '🥪' },
+       //     { id: 9, category: 'food', title: 'Dessert Display', description: 'Tempting sweet treats', emoji: '🍰' },
+       //     ];
 
         const reviewsData = [
             { id: 1, name: 'Sri Godha udamala', rating: 5, date: '2025-08-15', text: 'Their food is amazing. Coffees and pastas are worth reordering. Only complaint i have from them is their wraps. They feel very weird and mealy. It can totally be a personal opinion to', helpful: 24, category: '5star' },
@@ -4939,7 +4954,8 @@
             if (desktopGrid) {
                 desktopGrid.innerHTML = filteredItems.map(item => `
                     <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
-                        <div class="text-4xl mb-4">${item.emoji}</div>
+                         <div class="text-4xl mb-4">${item.emoji}</div> 
+                       <!-- <img src="${item.imgurl}" alt="${item.name}" class="w-full h-40 object-cover mb-4 rounded-lg"> -->
                         <h3 class="text-xl font-semibold mb-2 text-gray-800">${item.name}</h3>
                         <p class="text-gray-600 mb-4">${item.description}</p>
                         <button onclick="openMenuModal(${item.id})" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
@@ -5161,7 +5177,8 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
             if (desktopGrid) {
                 desktopGrid.innerHTML = filteredItems.map(item => `
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 card-hover cursor-pointer" onclick="openGalleryModal(${item.id})">
-                        <div class="text-4xl mb-4">${item.emoji}</div>
+                        <!-- <div class="text-4xl mb-4">${item.image}</div> -->
+                        <img src="${item.imageurl}" alt="${item.title}" class="w-full h-40 object-cover mb-4 rounded-lg">
                         <h3 class="text-lg font-semibold mb-2 text-gray-800">${item.title}</h3>
                         <p class="text-gray-600 text-sm">${item.description}</p>
                     </div>
@@ -5173,7 +5190,8 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
             if (tabletGrid) {
                 tabletGrid.innerHTML = filteredItems.map(item => `
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 card-hover cursor-pointer" onclick="openGalleryModal(${item.id})">
-                        <div class="text-3xl mb-3">${item.emoji}</div>
+                        <!--<div class="text-3xl mb-3">${item.emoji}</div>-->
+                        <img src="${item.imageurl}" alt="${item.title}" class="w-full h-40 object-cover mb-4 rounded-lg">
                         <h3 class="font-semibold mb-2 text-gray-800">${item.title}</h3>
                         <p class="text-gray-600 text-sm">${item.description}</p>
                     </div>
@@ -5185,7 +5203,8 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
             if (mobileGrid) {
                 mobileGrid.innerHTML = filteredItems.map(item => `
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 cursor-pointer" onclick="openGalleryModal(${item.id})">
-                        <div class="text-3xl mb-2">${item.emoji}</div>
+                        <!--<div class="text-3xl mb-2">${item.image}</div>-->
+                        <img src="${item.imageurl}" alt="${item.title}" class="w-full h-40 object-cover mb-4 rounded-lg">
                         <h3 class="font-semibold mb-1 text-gray-800 text-sm">${item.title}</h3>
                         <p class="text-gray-600 text-xs">${item.description}</p>
                     </div>
@@ -5200,10 +5219,11 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
             
             content.innerHTML = `
                 <div class="p-8 text-center">
-                    <div class="text-8xl mb-6">${item.emoji}</div>
+                   <!-- <div class="text-8xl mb-6">${item.emoji}</div>-->
+                    <img src="${item.imageurl}" alt="${item.title}" class="w-full h-40 object-cover mb-4 rounded-lg">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">${item.title}</h2>
                     <p class="text-gray-600 mb-6">${item.description}</p>
-                    <p class="text-sm text-gray-500">Category: ${item.category}</p>
+                  <!--  <p class="text-sm text-gray-500">Category: ${item.category}</p> -->
                 </div>
             `;
             
@@ -5432,7 +5452,8 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
             }
 
             // Close modals with Escape key
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function(e) 
+            {
                 if (e.key === 'Escape') {
                     const galleryModal = document.getElementById('gallery-modal');
                     const menuModal = document.getElementById('menu-modal');
@@ -5445,4 +5466,33 @@ ${item.category === 'hot-coffee' || item.category === 'cold-coffee' ? `
                     }
                 }
             });
+            
+                        function showPage(pageId) {
+      // Hide all sections
+      document.querySelectorAll("section").forEach(sec => sec.style.display = "none");
+
+      // Show the selected section
+      document.getElementById(pageId).style.display = "block";
+
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    const btn = document.getElementById("backToTop");
+// Show/hide Back to Top button
+    window.onscroll = function () {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    };
+
+    // Back to Top action
+    btn.onclick = function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+ 
+
+
         });

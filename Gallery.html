@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            box-sizing: border-box;
+        }
+        .hero-bg { background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%); }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .star-rating { color: #fbbf24; }
+        .fade-in { animation: fadeIn 0.6s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .page { display: none; }
+        .page.active { display: block; }
+        .floating-leaf {
+            animation: floatingLeaf 8s ease-in-out infinite;
+        }
+        @keyframes floatingLeaf {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg); 
+                opacity: 0.6; 
+            }
+            25% { 
+                transform: translateY(-20px) translateX(10px) rotate(5deg); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: translateY(-10px) translateX(-5px) rotate(-3deg); 
+                opacity: 0.4; 
+            }
+            75% { 
+                transform: translateY(-25px) translateX(15px) rotate(8deg); 
+                opacity: 0.7; 
+            }
+        }
+        .responsive-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+        }
+        .responsive-subtitle {
+            font-size: clamp(1.125rem, 3vw, 1.5rem);
+        }
+        .responsive-text {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+        @media (max-width: 767px) {
+            .mobile-only { display: block; }
+            .tablet-only { display: none; }
+            .desktop-only { display: none; }
+            .nav-mobile { 
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 1px solid #e5e7eb;
+                z-index: 50;
+            }
+            .hero-mobile {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+            .btn-touch {
+                min-height: 44px;
+                min-width: 44px;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .mobile-only { display: none; }
+            .tablet-only { display: block; }
+            .desktop-only { display: none; }
+        }
+        @media (min-width: 1024px) {
+            .mobile-only { display: none; }
+            .tablet-only { display: none; }
+            .desktop-only { display: block; }
+        }
+        .flexbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            min-height: 120px;
+        }
+        @media (max-width: 767px) {
+            .gallery-item {
+                border-radius: 8px;
+                min-height: 140px;
+            }
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 95vw;
+            max-height: 85vh;
+            position: relative;
+            margin: 1rem;
+        }
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        @media (max-width: 767px) {
+            .modal-content {
+                max-width: 90vw;
+                max-height: 80vh;
+                margin: 0.5rem;
+            }
+            .close-modal {
+                top: -45px;
+                right: -10px;
+                font-size: 1.75rem;
+                background: rgba(0,0,0,0.5);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="hero-bg text-white py-12 md:py-16 hero-mobile relative overflow-hidden">
+        <!-- Floating leaves -->
+        <div class="absolute top-10 left-10 floating-leaf mobile-only tablet-only desktop-only">🍃</div>
+        <div class="absolute top-20 right-20 floating-leaf desktop-only" style="animation-delay: -2s;">🌿</div>
+        <div class="absolute bottom-20 left-1/4 floating-leaf tablet-only desktop-only" style="animation-delay: -4s;">🍃</div>
+        
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="responsive-title font-bold mb-4 fade-in">Nature Gallery</h1>
+            <p class="responsive-subtitle mb-6 md:mb-8 fade-in px-4" style="animation-delay: 0.2s;">Discover the beauty of nature through our curated collection</p>
+        </div>
+    </header>
+
+    <!-- Filter Navigation -->
+    <nav class="bg-white shadow-sm py-4 md:py-6">
+        <div class="container mx-auto px-4">
+            <!-- Mobile: Horizontal scroll -->
+            <div class="mobile-only overflow-x-auto">
+                <div class="flex gap-3 pb-2 min-w-max">
+                    <button class="filter-btn active px-4 py-2 rounded-full border-2 border-green-600 font-medium text-sm whitespace-nowrap btn-touch" data-filter="all">
+                        All Photos
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-600 text-green-600 font-medium text-sm whitespace-nowrap btn-touch" data-filter="interior">
+                        Interior
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-600 text-green-600 font-medium text-sm whitespace-nowrap btn-touch" data-filter="drinks">
+                        Drinks
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-600 text-green-600 font-medium text-sm whitespace-nowrap btn-touch" data-filter="food">
+                        Food
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tablet and Desktop: Centered wrap -->
+            <div class="tablet-only desktop-only flex flex-wrap justify-center gap-4">
+                <button class="filter-btn active px-6 py-3 rounded-full border-2 border-green-600 font-medium responsive-text" data-filter="all">
+                    All Photos
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border-2 border-green-600 text-green-600 font-medium responsive-text" data-filter="interior">
+                    Interior
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border-2 border-green-600 text-green-600 font-medium responsive-text" data-filter="drinks">
+                    Drinks
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border-2 border-green-600 text-green-600 font-medium responsive-text" data-filter="food">
+                    Food
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Grid -->
+    <main class="container mx-auto px-4 py-8 pb-20 md:pb-12">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6" id="galleryGrid">
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal1')">
+                <div class="aspect-square bg-gradient-to-br from-amber-400 to-orange-500 relative flexbox">
+                    <div class="text-8xl">🛋️</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Cozy Living Room</h3>
+                        <p class="text-sm opacity-90">Modern comfort meets style</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal2')" style="animation-delay: 0.1s;">
+                <div class="aspect-square bg-gradient-to-br from-green-400 to-emerald-500 relative flexbox">
+                    <div class="text-8xl">🍹</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Tropical Cocktail</h3>
+                        <p class="text-sm opacity-90">Refreshing summer blend</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item card-hover fade-in" data-category="food" onclick="openModal('modal3')" style="animation-delay: 0.2s;">
+                <div class="aspect-square bg-gradient-to-br from-red-400 to-pink-500 relative flexbox">
+                    <div class="text-8xl">🍕</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Artisan Pizza</h3>
+                        <p class="text-sm opacity-90">Wood-fired perfection</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 4 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal4')" style="animation-delay: 0.3s;">
+                <div class="aspect-square bg-gradient-to-br from-blue-400 to-indigo-500 relative flexbox">
+                    <div class="text-8xl">🪴</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Plant Corner</h3>
+                        <p class="text-sm opacity-90">Green sanctuary indoors</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 5 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal5')" style="animation-delay: 0.4s;">
+                <div class="aspect-square bg-gradient-to-br from-purple-400 to-violet-500 relative flexbox">
+                    <div class="text-8xl">☕</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Morning Coffee</h3>
+                        <p class="text-sm opacity-90">Perfect brew to start the day</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 6 -->
+            <div class="gallery-item card-hover fade-in" data-category="food" onclick="openModal('modal6')" style="animation-delay: 0.5s;">
+                <div class="aspect-square bg-gradient-to-br from-yellow-400 to-orange-500 relative flexbox">
+                    <div class="text-8xl">🥗</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Fresh Salad</h3>
+                        <p class="text-sm opacity-90">Garden-fresh ingredients</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 7 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal7')" style="animation-delay: 0.6s;">
+                <div class="aspect-square bg-gradient-to-br from-teal-400 to-cyan-500 relative flexbox">
+                    <div class="text-8xl">🛏️</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Bedroom Retreat</h3>
+                        <p class="text-sm opacity-90">Peaceful sleeping space</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 8 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal8')" style="animation-delay: 0.7s;">
+                <div class="aspect-square bg-gradient-to-br from-pink-400 to-rose-500 relative flexbox">
+                    <div class="text-8xl">🍷</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Fine Wine</h3>
+                        <p class="text-sm opacity-90">Elegant evening selection</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 9 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal9')" style="animation-delay: 0.8s;">
+                <div class="aspect-square bg-gradient-to-br from-slate-400 to-gray-600 relative flexbox">
+                    <div class="text-8xl">🪑</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Designer Chair</h3>
+                        <p class="text-sm opacity-90">Modern minimalist seating</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 10 -->
+            <div class="gallery-item card-hover fade-in" data-category="food" onclick="openModal('modal10')" style="animation-delay: 0.9s;">
+                <div class="aspect-square bg-gradient-to-br from-orange-400 to-red-500 relative flexbox">
+                    <div class="text-8xl">🍝</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Pasta Delight</h3>
+                        <p class="text-sm opacity-90">Homemade Italian cuisine</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 11 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal11')" style="animation-delay: 1.0s;">
+                <div class="aspect-square bg-gradient-to-br from-blue-400 to-cyan-500 relative flexbox">
+                    <div class="text-8xl">🧊</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Iced Beverage</h3>
+                        <p class="text-sm opacity-90">Cool and refreshing</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 12 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal12')" style="animation-delay: 1.1s;">
+                <div class="aspect-square bg-gradient-to-br from-emerald-400 to-teal-600 relative flexbox">
+                    <div class="text-8xl">🖼️</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Wall Art</h3>
+                        <p class="text-sm opacity-90">Curated gallery wall</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 13 -->
+            <div class="gallery-item card-hover fade-in" data-category="food" onclick="openModal('modal13')" style="animation-delay: 1.2s;">
+                <div class="aspect-square bg-gradient-to-br from-purple-400 to-indigo-500 relative flexbox">
+                    <div class="text-8xl">🍰</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Layered Cake</h3>
+                        <p class="text-sm opacity-90">Sweet celebration treat</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 14 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal14')" style="animation-delay: 1.3s;">
+                <div class="aspect-square bg-gradient-to-br from-amber-400 to-yellow-500 relative flexbox">
+                    <div class="text-8xl">🍺</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Craft Beer</h3>
+                        <p class="text-sm opacity-90">Local brewery selection</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 15 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal15')" style="animation-delay: 1.4s;">
+                <div class="aspect-square bg-gradient-to-br from-rose-400 to-pink-500 relative flexbox">
+                    <div class="text-8xl">🕯️</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Ambient Lighting</h3>
+                        <p class="text-sm opacity-90">Cozy candlelit atmosphere</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 16 -->
+            <div class="gallery-item card-hover fade-in" data-category="food" onclick="openModal('modal16')" style="animation-delay: 1.5s;">
+                <div class="aspect-square bg-gradient-to-br from-green-400 to-lime-500 relative flexbox">
+                    <div class="text-8xl">🥑</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Avocado Toast</h3>
+                        <p class="text-sm opacity-90">Healthy breakfast choice</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 17 -->
+            <div class="gallery-item card-hover fade-in" data-category="drinks" onclick="openModal('modal17')" style="animation-delay: 1.6s;">
+                <div class="aspect-square bg-gradient-to-br from-red-400 to-orange-500 relative flexbox">
+                    <div class="text-8xl">🧃</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Fresh Juice</h3>
+                        <p class="text-sm opacity-90">Vitamin-packed goodness</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Item 18 -->
+            <div class="gallery-item card-hover fade-in" data-category="interior" onclick="openModal('modal18')" style="animation-delay: 1.7s;">
+                <div class="aspect-square bg-gradient-to-br from-indigo-400 to-purple-600 relative flexbox">
+                    <div class="text-8xl">📚</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="text-white">
+                        <h3 class="font-semibold text-lg mb-1">Reading Nook</h3>
+                        <p class="text-sm opacity-90">Quiet literary corner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for enlarged view -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modalImage" class="w-full h-full bg-gray-200 rounded-lg flexbox">
+                <div class="text-6xl">🖼️</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="nav-mobile mobile-only bg-white shadow-lg">
+        <div class="flex justify-around py-3">
+            <button class="btn-touch text-green-600 flex flex-col items-center">
+                <span class="text-xl">🏠</span>
+                <span class="text-xs mt-1">Home</span>
+            </button>
+            <button class="btn-touch text-green-600 flex flex-col items-center bg-green-50 rounded-lg">
+                <span class="text-xl">📷</span>
+                <span class="text-xs mt-1">Gallery</span>
+            </button>
+            <button class="btn-touch text-green-600 flex flex-col items-center">
+                <span class="text-xl">❤️</span>
+                <span class="text-xs mt-1">Favorites</span>
+            </button>
+            <button class="btn-touch text-green-600 flex flex-col items-center">
+                <span class="text-xl">👤</span>
+                <span class="text-xs mt-1">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filter = button.getAttribute('data-filter');
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        item.classList.add('fade-in');
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal functionality
+        function openModal(modalId) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            // Get the clicked item's content
+            const clickedItem = event.currentTarget;
+            const itemContent = clickedItem.querySelector('div').cloneNode(true);
+            
+            modalImage.innerHTML = '';
+            modalImage.appendChild(itemContent);
+            modal.classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal on background click
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target.id === 'imageModal') {
+                closeModal();
+            }
+        });
+
+        // Add staggered animation to gallery items on load
+        window.addEventListener('load', () => {
+            galleryItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('fade-in');
+                }, index * 100);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9895ccdd310f4463',t:'MTc1OTU5MjY2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

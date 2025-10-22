@@ -4671,7 +4671,7 @@
                 category: 'omelettes',
                 price: '₹129',
                 description: 'Mediterranean-style eggs with yogurt and aromatic spices',
-                emoji: '🍳🇹🇷',
+                emoji: '🍳🦃',
                 details: {
                     fullDescription: 'A Mediterranean delicacy featuring poached eggs served over creamy yogurt infused with garlic, topped with spiced butter and fresh herbs. This Turkish-inspired dish offers a unique combination of textures and flavors.',
                     ingredients: ['Fresh eggs', 'Greek yogurt', 'Garlic', 'Paprika', 'Butter', 'Dill', 'Sumac', 'Olive oil', 'Salt', 'Black pepper'],

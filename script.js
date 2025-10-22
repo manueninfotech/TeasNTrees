@@ -2035,7 +2035,7 @@
                 category: 'salads',
                 price: '₹199',
                 description: 'Fresh Italian salad with crisp vegetables and creamy mayo dressing',
-                emoji: '🥗🇮🇹',
+                emoji: '🥗',
                 details: {
                     fullDescription: 'A vibrant Italian-inspired salad featuring fresh lettuce, cherry tomatoes, bell peppers, olives, and mozzarella cheese, all tossed in a creamy mayonnaise dressing with Italian herbs.',
                     ingredients: ['Mixed lettuce', 'Cherry tomatoes', 'Bell peppers', 'Black olives', 'Mozzarella cheese', 'Red onions', 'Mayonnaise', 'Italian herbs', 'Olive oil'],
@@ -2077,7 +2077,7 @@
                 category: 'salads',
                 price: '₹249',
                 description: 'Traditional Russian salad with mixed vegetables and mayo dressing',
-                emoji: '🥔🇷🇺',
+                emoji: '🥔',
                 details: {
                     fullDescription: 'Traditional Russian salad (Olivier salad) with boiled potatoes, carrots, peas, and pickles, all mixed together with a creamy mayonnaise dressing for that authentic taste.',
                     ingredients: ['Boiled potatoes', 'Carrots', 'Green peas', 'Pickles', 'Mayonnaise', 'Hard-boiled eggs', 'Salt', 'White pepper', 'Fresh herbs'],
@@ -2098,7 +2098,7 @@
                 category: 'salads',
                 price: '₹249',
                 description: 'Mediterranean Greek salad with feta cheese and simple dressing',
-                emoji: '🫒🇬🇷',
+                emoji: '🫒',
                 details: {
                     fullDescription: 'Authentic Greek salad with fresh tomatoes, cucumbers, red onions, olives, and feta cheese, dressed simply with olive oil, lemon juice, and oregano.',
                     ingredients: ['Fresh tomatoes', 'Cucumbers', 'Red onions', 'Kalamata olives', 'Feta cheese', 'Olive oil', 'Lemon juice', 'Oregano', 'Sea salt'],
@@ -3993,7 +3993,7 @@
                 category: 'pizza',
                 price: '₹329 (6") / ₹259 (9")',
                 description: 'Authentic Neapolitan pizza with buffalo mozzarella and San Marzano tomatoes',
-                emoji: '🍕🇮🇹',
+                emoji: '🍕',
                 details: {
                     fullDescription: 'An authentic Neapolitan pizza made according to traditional methods with buffalo mozzarella, San Marzano tomatoes, and fresh basil. This classic represents the true essence of Naples pizza-making tradition.',
                     ingredients: ['Neapolitan dough', 'San Marzano tomatoes', 'Buffalo mozzarella', 'Fresh basil', 'Extra virgin olive oil', 'Sea salt', 'Garlic'],

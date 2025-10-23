@@ -4863,7 +4863,7 @@
         
 
         const galleryItems =  [
-    { id: 1, category: 'interior', title: 'Cozy Seating Area', description: 'Comfortable chairs and warm lighting', imageurl: '/Assets/Interior_1.png' },
+    { id: 1, category: 'interior', title: 'Cozy Seating Area', description: 'Comfortable chairs and warm lighting', imageurl: '/Assets/Interior_1.jpg' },
     { id: 2, category: 'interior', title: 'Sofa Seating Area', description: 'Our beautiful espresso station', imageurl: '/Assets/Interior_2.png' },
     { id: 3, category: 'interior', title: 'Natural Trees', description: 'Perfect spot for quiet moments', imageurl: '/Assets/Interior_3.png' },
     { id: 4, category: 'drinks', title: 'Coffee', description: 'Beautiful foam designs', imageurl: 'Assets/Drinks_1.jpg' },
